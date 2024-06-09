@@ -24,9 +24,10 @@ public class JwtServiceImpl implements JwtService {
 
     private Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String username) {
+    public String generateToken(String username , String userRole) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("userRole",userRole)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours validity
                 .signWith(SignatureAlgorithm.HS256, secretKey)

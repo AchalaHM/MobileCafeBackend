@@ -65,9 +65,9 @@ public class UserServiceImpl implements UserService {
     public Response<String> loginUser(UserLoginDTO userLoginDTO) {
         User user = userRepository.findByEmail(userLoginDTO.getEmail());
         if (user != null && passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
-            String token = jwtService.generateToken(user.getEmail());
-            logger.info("User logged in successfully");
-            return new Response<>(1000, "Login successful", token);
+            String token = jwtService.generateToken(user.getEmail(), user.getUserRole());
+            logger.info("User logged in successfully as "+ user.getUserRole());
+            return new Response<>(1000, "User logged in as "+ user.getUserRole(), token);
         }
         logger.warn("Invalid Email or password");
         return new Response<>(1001, "Invalid email or password", null);
