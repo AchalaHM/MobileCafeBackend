@@ -3,8 +3,9 @@ package com.cafe.cafeback.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+
 @Data
-public class MobileCategoryDTO {
+public class MobileDTO {
     private int id;
     private String brandName;
     private String model;
@@ -16,5 +17,5 @@ public class MobileCategoryDTO {
     private LocalDate addedOn;
     private LocalDate updatedOn;
     private String description;
-
+    private byte[] image;
 }

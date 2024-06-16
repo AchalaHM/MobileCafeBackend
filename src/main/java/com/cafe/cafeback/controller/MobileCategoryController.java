@@ -1,6 +1,7 @@
 package com.cafe.cafeback.controller;
 
 import com.cafe.cafeback.dto.MobileCategoryDTO;
+import com.cafe.cafeback.dto.MobileDTO;
 import com.cafe.cafeback.dto.Response;
 import com.cafe.cafeback.service.MobileCategoryService;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class MobileCategoryController {
     }
 
     @GetMapping("/getAllMobiles")
-    public ResponseEntity<Response<List<MobileCategoryDTO>>> getAllMobiles(){
+    public ResponseEntity<Response<List<MobileDTO>>> getAllMobiles(){
         return ResponseEntity.ok(mobileCategoryService.getAllMobiles());
     }
 
