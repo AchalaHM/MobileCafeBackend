@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping()
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,6 +29,11 @@ public class MobileCategoryController {
 
         return ResponseEntity.ok(mobileCategoryService.addMobileCategory(mobileCategoryDTO, image));
 
+    }
+
+    @GetMapping("/getAllMobiles")
+    public ResponseEntity<Response<List<MobileCategoryDTO>>> getAllMobiles(){
+        return ResponseEntity.ok(mobileCategoryService.getAllMobiles());
     }
 
 }

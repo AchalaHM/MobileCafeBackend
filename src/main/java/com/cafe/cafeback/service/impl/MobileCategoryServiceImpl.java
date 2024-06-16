@@ -6,13 +6,14 @@ import com.cafe.cafeback.entity.MobilesCategory;
 import com.cafe.cafeback.repository.MobileCategoryRepository;
 import com.cafe.cafeback.service.MobileCategoryService;
 import com.cafe.cafeback.util.ImageUtil;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MobileCategoryServiceImpl implements MobileCategoryService {
@@ -63,4 +64,38 @@ public class MobileCategoryServiceImpl implements MobileCategoryService {
         }
 
     }
+
+    @Override
+    public Response<List<MobileCategoryDTO>> getAllMobiles() {
+        try {
+            List<MobileCategoryDTO> mobileCategoryDTOS = new ArrayList<>();
+            List<MobilesCategory> mobilesCategories = mobileCategoryRepository.findAll();
+
+            for (MobilesCategory mobilesCategory: mobilesCategories) {
+                MobileCategoryDTO dto = new MobileCategoryDTO();
+                dto.setId(mobilesCategory.getId());
+                dto.setBrandName(mobilesCategory.getBrandName());
+                dto.setModel(mobilesCategory.getModel());
+                dto.setStorage(mobilesCategory.getStorage());
+                dto.setMemory(mobilesCategory.getMemory());
+                dto.setPrice(mobilesCategory.getPrice());
+                dto.setDescription(mobilesCategory.getDescription());
+                dto.setManufactureYear(mobilesCategory.getManufactureYear());
+
+                byte[] decompressedImage = ImageUtil.decompressImage(mobilesCategory.getImage());
+                dto.setImage(decompressedImage);
+
+                mobileCategoryDTOS.add(dto);
+            }
+
+            logger.info("Mobile list get successfully");
+            return new Response<>(1000, "mobile list get successfully" , mobileCategoryDTOS);
+
+        } catch (Exception e){
+            logger.error("Error while getting mobile list");
+            return new Response<>(1001, "Error while getting mobile list" , null);
+        }
+    }
+
+
 }
