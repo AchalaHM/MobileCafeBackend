@@ -16,4 +16,5 @@ public class MobileCategoryDTO {
     private LocalDate addedOn;
     private LocalDate updatedOn;
     private String description;
+    private byte[] image;
 }
