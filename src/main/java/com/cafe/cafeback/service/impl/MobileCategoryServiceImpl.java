@@ -1,6 +1,7 @@
 package com.cafe.cafeback.service.impl;
 
 import com.cafe.cafeback.dto.MobileCategoryDTO;
+import com.cafe.cafeback.dto.MobileDTO;
 import com.cafe.cafeback.dto.Response;
 import com.cafe.cafeback.entity.MobilesCategory;
 import com.cafe.cafeback.repository.MobileCategoryRepository;
@@ -66,13 +67,13 @@ public class MobileCategoryServiceImpl implements MobileCategoryService {
     }
 
     @Override
-    public Response<List<MobileCategoryDTO>> getAllMobiles() {
+    public Response<List<MobileDTO>> getAllMobiles() {
         try {
-            List<MobileCategoryDTO> mobileCategoryDTOS = new ArrayList<>();
+            List<MobileDTO> mobileDTOS = new ArrayList<>();
             List<MobilesCategory> mobilesCategories = mobileCategoryRepository.findAll();
 
             for (MobilesCategory mobilesCategory: mobilesCategories) {
-                MobileCategoryDTO dto = new MobileCategoryDTO();
+                MobileDTO dto = new MobileDTO();
                 dto.setId(mobilesCategory.getId());
                 dto.setBrandName(mobilesCategory.getBrandName());
                 dto.setModel(mobilesCategory.getModel());
@@ -85,11 +86,11 @@ public class MobileCategoryServiceImpl implements MobileCategoryService {
                 byte[] decompressedImage = ImageUtil.decompressImage(mobilesCategory.getImage());
                 dto.setImage(decompressedImage);
 
-                mobileCategoryDTOS.add(dto);
+                mobileDTOS.add(dto);
             }
 
             logger.info("Mobile list get successfully");
-            return new Response<>(1000, "mobile list get successfully" , mobileCategoryDTOS);
+            return new Response<>(1000, "mobile list get successfully" , mobileDTOS);
 
         } catch (Exception e){
             logger.error("Error while getting mobile list");
