@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MobileCategoryServiceImpl implements MobileCategoryService {
@@ -95,6 +96,38 @@ public class MobileCategoryServiceImpl implements MobileCategoryService {
         } catch (Exception e){
             logger.error("Error while getting mobile list");
             return new Response<>(1001, "Error while getting mobile list" , null);
+        }
+    }
+
+    @Override
+    public Response<String> updateMobiles(MobileCategoryDTO mobileCategoryDTO) {
+        try{
+            Optional<MobilesCategory> existingCategory = mobileCategoryRepository.findById(mobileCategoryDTO.getId());
+
+            if (existingCategory.isEmpty()){
+                return new Response<>(1002, "Category not found" , null);
+            }
+
+            MobilesCategory mobilesCategory = existingCategory.get();
+            mobilesCategory.setUpdatedOn(LocalDate.now());
+            if(mobileCategoryDTO.getPrice() != 0){
+                mobilesCategory.setPrice(mobileCategoryDTO.getPrice());
+            }
+
+            if (mobileCategoryDTO.getQuantity() != 0){
+                mobilesCategory.setQuantity(mobilesCategory.getQuantity() + mobileCategoryDTO.getQuantity());
+            }
+
+            if(mobileCategoryDTO.getDescription() != null){
+                mobilesCategory.setDescription(mobileCategoryDTO.getDescription());
+            }
+
+
+            mobileCategoryRepository.save(mobilesCategory);
+            logger.info("Update successfully" + mobilesCategory);
+            return new Response<>(1000, "Update successfully" , "Updated things"+ mobilesCategory);
+        } catch (Exception e){
+            return new Response<>(1001 , "Error occured while updating mobile details", null);
         }
     }
 

@@ -37,4 +37,9 @@ public class MobileCategoryController {
         return ResponseEntity.ok(mobileCategoryService.getAllMobiles());
     }
 
+    @PutMapping("/updateMobile")
+    public ResponseEntity<Response<String>> updateMobileCategory(@RequestBody MobileCategoryDTO mobileCategoryDTO){
+        return ResponseEntity.ok(mobileCategoryService.updateMobiles(mobileCategoryDTO));
+    }
+
 }
