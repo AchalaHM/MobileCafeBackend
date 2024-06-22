@@ -12,4 +12,6 @@ public interface MobileCategoryService {
     Response<String> addMobileCategory(MobileCategoryDTO mobileCategoryDTO , MultipartFile imageFile);
 
     Response<List<MobileDTO>> getAllMobiles();
+
+    Response<String> updateMobiles( MobileCategoryDTO mobileCategoryDTO);
 }
