@@ -6,4 +6,5 @@ import com.cafe.cafeback.dto.Response;
 public interface CartService {
 
     public Response<String> addToCart(CartDTO cartDTO );
+    public Response<String> getCartByUser(CartDTO cartDTO);
 }

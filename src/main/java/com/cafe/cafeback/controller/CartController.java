@@ -17,8 +17,13 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("addToCart")
+    @PostMapping("/addToCart")
     public ResponseEntity<Response<String>> addToCart(@RequestBody CartDTO cartDTO){
         return ResponseEntity.ok(cartService.addToCart(cartDTO));
+    }
+
+    @GetMapping("/viewCartByUser")
+    public ResponseEntity<Response<String>> viewCartByUser(@RequestBody CartDTO cartDTO){
+        return ResponseEntity.ok(cartService.getCartByUser(cartDTO));
     }
 }

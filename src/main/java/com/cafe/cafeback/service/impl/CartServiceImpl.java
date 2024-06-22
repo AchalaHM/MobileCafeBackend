@@ -94,4 +94,39 @@ public class CartServiceImpl implements CartService {
             return  new Response<>(1001, "Error happen while add to cart" , null);
         }
     }
+
+    @Override
+    public Response<String> getCartByUser(CartDTO cartDTO) {
+        try{
+            Optional<User> userOptional = userRepository.findById(cartDTO.getUserId());
+            if (userOptional.isEmpty()){
+                return new Response<>(1002, "User not found" , null);
+            }
+
+            Optional<Cart> cartOptional = cartRepository.findByUser(userOptional.get());
+            if (cartOptional.isEmpty()){
+                return new Response<>(1002, "Cart not found", null);
+            }
+
+            Cart cart = cartOptional.get();
+
+            CartDTO cartDTO1 = new CartDTO();
+            cartDTO1.setUserId(userOptional.get().getId());
+
+            List<CartItemDTO> itemDTOS = new ArrayList<>();
+            for (CartItems cartItems: cart.getItems()){
+                CartItemDTO itemDTO = new CartItemDTO();
+                itemDTO.setMobileId(cartItems.getMobilesCategory().getId());
+                itemDTO.setQuantity(cartItems.getQuantity());
+                itemDTOS.add(itemDTO);
+            }
+            System.out.println(itemDTOS);
+            cartDTO1.setItems(itemDTOS);
+            logger.info("Cart details retrieved successfully");
+            return new Response<>(1000, "Cart retrieved successfully", "Cart : "+ cartDTO1);
+
+        } catch (Exception e){
+            return new Response<>(1001, "Error while retrieving cart data", null);
+        }
+    }
 }
